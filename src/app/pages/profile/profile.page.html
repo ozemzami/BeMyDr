@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        
+      </ion-menu-button>
+
+    </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="logOut()">
+        <ion-icon slot="start" name="log-out" style="width: 23px;height: 30px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="margin-left: 30%;font-weight: bold;" >Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img [src]="photo" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="user-meta ion-text-center">
+      <h3 class="playername">{{name}}</h3>
+    </div>
+  </div>
+
+</ion-content>

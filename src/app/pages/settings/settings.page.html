@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        
+      </ion-menu-button>
+
+    </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="logOut()" >
+        <ion-icon slot="start" name="log-out" style="width: 23px;height: 30px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="margin-left: 30%;font-weight: bold;" >Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form  #form="ngForm" (ngSubmit)="save(form)">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+            <h3>User preference</h3>
+          </div>
+          <div padding>
+            <ion-item>
+              <ion-label position="floating" >Number of questions ({{questions}})</ion-label>
+              <ion-input  name="questions" type="number" value="333"  ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating" >Number of diagnostics ({{diagnostics}})</ion-label>
+              <ion-input name="diagnostics" type="number"  ngModel required></ion-input>
+            </ion-item>
+          </div>
+          <div padding>
+            <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Save</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <form  *ngIf="!saved" #form="ngForm" (ngSubmit)="saveUser(form)">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+            <h3>User information</h3>
+          </div>
+          <div padding>
+            <ion-item>
+              <ion-label position="floating" >Sexe</ion-label>
+              <ion-input  name="sexe" type="text" value="333"  ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating" >Age</ion-label>
+              <ion-input name="age" type="number"  ngModel required></ion-input>
+            </ion-item>
+          </div>
+          <div padding>
+            <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Save</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>
