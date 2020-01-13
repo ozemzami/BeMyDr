@@ -45,14 +45,16 @@ export class ChatbotService {
     const userMessage = new Message(msg, 'user');
     this.update(userMessage);
     const user = await this.getUsername();
+    console.log(user)
 
     const options = {
       sessionId: 'session______id',
       resetContexts: false,
       contexts: [{
           name: 'suggested_symptoms',
+          lifespan: 40,
           parameters: {
-            username: user,
+            userId: user,
           }
       }]
     };

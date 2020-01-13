@@ -31,12 +31,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     const currentUser = this.loginService.userDetails()
-    console.log(currentUser)
     this.storage.get('auth').then((val) => {
-      console.log(val)
       if(val === 'google'){
         firebase.database().ref(`/${currentUser.uid}`).once('value').then( (snapshot) => {
-          console.log(val)
           var val = snapshot.val()
           if( val === null){
             this.allowed = false
@@ -59,11 +56,6 @@ export class HomePage implements OnInit {
             );
         }
       });
-    } else {
-      // You're testing in browser, do nothing or mock the plugins' behaviour.
-      //
-      // var url: string = 'assets/mock-images/image.jpg';
-      console.log('browser');
     }
     // appends to array after each new message is added to feedSource
     this.messages = this.chat.conversation

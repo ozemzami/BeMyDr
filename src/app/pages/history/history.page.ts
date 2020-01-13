@@ -29,8 +29,6 @@ export class HistoryPage implements OnInit {
         date = this.dates[i];
         this.histories.push(results[date])
       }
-      console.log(this.histories)
-      console.log(this.dates)
     });
   }
 
