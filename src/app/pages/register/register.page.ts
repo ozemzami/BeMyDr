@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +28,8 @@ export class RegisterPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -52,9 +54,11 @@ export class RegisterPage implements OnInit {
        console.log(res);
        this.errorMessage = '';
        this.successMessage = 'Your account has been created. Please log in.';
+       this.alertService.presentToast(this.successMessage);
      }, err => {
        console.log(err);
        this.errorMessage = err.message;
+       this.alertService.presentToast(this.errorMessage);
        this.successMessage = '';
      });
   }

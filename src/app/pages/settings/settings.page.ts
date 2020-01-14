@@ -22,7 +22,10 @@ export class SettingsPage implements OnInit {
    }
 
   ngOnInit() {
-    const currentUser = this.loginservice.userDetails()
+    var currentUser = firebase.auth().currentUser
+    if(currentUser === null){
+      this.navCtrl.navigateForward('/login');
+    }
       firebase.database().ref(`/${currentUser.uid}`).once('value').then( (snapshot) => {
         var val = snapshot.val()
         if( val !== null){
@@ -42,19 +45,20 @@ export class SettingsPage implements OnInit {
 
 
   public save(form){
-    const currentUser = this.loginservice.userDetails()
+    var currentUser = firebase.auth().currentUser
     this.upservice.saveData(form.value , currentUser.uid)
     this.diagnostics = 'Current value: '+ form.value.diagnostics;
     this.questions = 'Current value: '+ form.value.questions;
 
   }
   public saveUser(form){
-    const currentUser = this.loginservice.userDetails()
+    var currentUser = firebase.auth().currentUser
     this.storage.get('profile').then((val) => {
       this.loginservice.writeUserData(val.given_name, val.family_name, 'email@gmail.com', currentUser.uid, form.value.age, form.value.sexe)
       this.diagnostics = 'Current value: '+ form.value.diagnostics;
       this.questions = 'Current value: '+ form.value.questions;
       this.saved = true
+      this.storage.set('allowed',true)
 
     })
 

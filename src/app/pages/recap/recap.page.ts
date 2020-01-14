@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecapService } from '../../services/recap.service';
 import { NavController } from '@ionic/angular';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-recap',
@@ -13,6 +14,10 @@ export class RecapPage implements OnInit {
   constructor(public navCtrl: NavController, private recapService: RecapService) { }
 
   ngOnInit() {
+    var currentUser = firebase.auth().currentUser
+    if(currentUser === null){
+      this.navCtrl.navigateForward('/login');
+    }
     this.recapService.getUserData().then(res => {
       console.log(res)
       var results = res.symptoms;

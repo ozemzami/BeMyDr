@@ -22,11 +22,11 @@ export class MenuPage implements OnInit {
     {
       title: 'History',
       url: '/menu/history',
-      icon: 'settings'
+      icon: 'time'
     },{
       title: 'Summary',
       url: '/menu/recap',
-      icon: 'settings'
+      icon: 'list-box'
     },
     {
       title: 'Settings',

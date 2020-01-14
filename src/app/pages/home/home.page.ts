@@ -5,7 +5,6 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { Observable } from 'rxjs';
 import { scan } from 'rxjs/operators';
 import { LoginService } from '../../services/login.service';
-import * as firebase from 'firebase';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -31,19 +30,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     const currentUser = this.loginService.userDetails()
-    this.storage.get('auth').then((val) => {
-      if(val === 'google'){
-        firebase.database().ref(`/${currentUser.uid}`).once('value').then( (snapshot) => {
-          var val = snapshot.val()
-          if( val === null){
-            this.allowed = false
-          }else{
-            this.allowed = true
-          }
-        });
-      }else{
-        this.allowed = true
-      }
+    this.storage.get('allowed').then((val) => {
+      console.log(val)
+      this.allowed = val
     });
     if (this.platform.is('cordova')) {
       this.speechRecognition.hasPermission()
@@ -56,6 +45,9 @@ export class HomePage implements OnInit {
             );
         }
       });
+    }
+    if(currentUser === null){
+      this.navCtrl.navigateForward('/login');
     }
     // appends to array after each new message is added to feedSource
     this.messages = this.chat.conversation

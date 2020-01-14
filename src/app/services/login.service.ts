@@ -3,6 +3,7 @@ import { Platform, NavController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import { Storage } from '@ionic/storage';
+import { AlertService } from './alert.service';
 
 declare var window: any;
  
@@ -14,7 +15,8 @@ export class LoginService {
   googleId = '136786270315-92k3a7s7t7rpoo3emv0poa9ph1rktpjc.apps.googleusercontent.com';
  
  constructor(private storage: Storage, private platform: Platform,
-             public navCtrl: NavController, private fireAuth: AngularFireAuth ) {}
+             public navCtrl: NavController, private fireAuth: AngularFireAuth,private alertService: AlertService
+              ) {}
  
  public login() {
    this.platform.ready()
@@ -75,12 +77,25 @@ export class LoginService {
         console.log(firebase.auth().currentUser);
         console.log(response)
         this.storage.set('profile', response.additionalUserInfo.profile);
-        this.navCtrl.navigateForward('/menu/home');
+        firebase.database().ref(`/${firebase.auth().currentUser.uid}`).once('value').then( (snapshot) => {
+          var value = snapshot.val()
+          console.log(value)
+          if( value === null){
+            this.storage.set('allowed', false);
+            this.navCtrl.navigateForward('/menu/home');
+            this.alertService.presentToast('Logged in');
+          }else{
+            this.storage.set('allowed', true);
+            this.navCtrl.navigateForward('/menu/home');
+            this.alertService.presentToast('Logged in');
+          }
+        });
       })
 
   }
   onLoginError(err) {
     console.log(err);
+    this.alertService.presentToast(err);
   }
   writeUserData(first, last, email, userRecord, old, sexe) {
     firebase.database().ref('/' + userRecord + '/infos').set({
